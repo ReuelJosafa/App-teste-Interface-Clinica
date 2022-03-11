@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../componets/menu_list_tile.dart';
-import '../../componets/menus_title_lt.dart';
-import '../../componets/nav_drawer_widget.dart';
+import '../../components/menu_list_tile.dart';
+import '../../components/menus_title_lt.dart';
+import '../../components/nav_drawer_widget.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -33,10 +33,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _sendWhatsappmassage() async {
     await Share.share(
-      "Olá!\n *Reuel Josafá kulibaba* está te enviando um convite para conhecer a clínica Luiz Bassi e Marcia Moreira.!"
-      " \nhttps://luizbassiemarciamoreira.com.br/ \nhttps://play.google.com/store/apps/details?id=com.figma.mirror",
-      subject: "Utilize o app da clínica"
-    );
+        "Olá!\n *Reuel Josafá kulibaba* está te enviando um convite para conhecer a clínica Luiz Bassi e Marcia Moreira.!"
+        " \nhttps://luizbassiemarciamoreira.com.br/ \nhttps://play.google.com/store/apps/details?id=com.figma.mirror",
+        subject: "Utilize o app da clínica");
   }
 
   @override

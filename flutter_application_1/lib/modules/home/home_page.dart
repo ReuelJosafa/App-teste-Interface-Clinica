@@ -1,41 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../components/menu_list_tile.dart';
 import '../../components/menus_title_lt.dart';
 import '../../components/nav_drawer_widget.dart';
+import '../menu_principal/menu_principal_page.dart';
+import '../meus_tratamentos/meus_tratamentos_page.dart';
+import '../minhas_contas/minhas_contas_page.dart';
+import '../minhas_indicacoes/minhas_indicacoes_page.dart';
+import '../preferencias_usuario/preferencias_usuario_page.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   MenuLTSelected enumMenuLTSelected = MenuLTSelected.mainMenu;
   List<MenusTitleLT> menusTitleLT = [];
-  late BuildContext buildContext;
+  // late BuildContext buildContext;
+  final _pageController = PageController();
 
   @override
   void initState() {
     super.initState();
   }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-    _sendWhatsappmassage();
+  Widget _navDrawe() {
+    return NavDrawer(
+        namePersonHeader: "Cesar Silva Peixoto", menusTitleLT: menusTitleLT);
   }
 
-  void _sendWhatsappmassage() async {
-    await Share.share(
-        "Olá!\n *Reuel Josafá kulibaba* está te enviando um convite para conhecer a clínica Luiz Bassi e Marcia Moreira.!"
-        " \nhttps://luizbassiemarciamoreira.com.br/ \nhttps://play.google.com/store/apps/details?id=com.figma.mirror",
-        subject: "Utilize o app da clínica");
+  String _titleAppBar() {
+    switch (enumMenuLTSelected) {
+      case MenuLTSelected.mainMenu:
+        return "Menu Principal";
+      case MenuLTSelected.myAppoitments:
+        return "Meus Tratamentos";
+      case MenuLTSelected.myBills:
+        return "Minhas Contas";
+      case MenuLTSelected.myInvantations:
+        return "Minhas Indicações";
+      case MenuLTSelected.userSettings:
+        return "Preferências do Usuário";
+    }
+  }
+
+  PreferredSizeWidget _pageAppBar() {
+    return AppBar(
+      title: Text(_titleAppBar()),
+      actions: const [
+        CircleAvatar(
+          // radius: 15,
+          child: Text(
+            "C",
+            style: TextStyle(fontSize: 24, color: Colors.white),
+          ),
+          backgroundColor: Colors.orange,
+        ),
+        SizedBox(width: 16)
+      ],
+    );
   }
 
   @override
@@ -45,10 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
         MenuListTile(
             icon: const Icon(Icons.home),
             title: "Menu Principal",
-            isSelected: enumMenuLTSelected.index == 0 ? true : false,
+            isSelected: enumMenuLTSelected.index == 0,
             onTap: () {
               setState(() {});
               enumMenuLTSelected = MenuLTSelected.mainMenu;
+              _pageController.jumpToPage(enumMenuLTSelected.index);
               Navigator.pop(context);
             }),
         MenuListTile(
@@ -58,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () {
               setState(() {});
               enumMenuLTSelected = MenuLTSelected.myAppoitments;
+              _pageController.jumpToPage(enumMenuLTSelected.index);
               Navigator.pop(context);
             }),
         MenuListTile(
@@ -67,6 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () {
               setState(() {});
               enumMenuLTSelected = MenuLTSelected.myBills;
+              _pageController.jumpToPage(enumMenuLTSelected.index);
               Navigator.pop(context);
             }),
         MenuListTile(
@@ -76,6 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () {
               setState(() {});
               enumMenuLTSelected = MenuLTSelected.myInvantations;
+              _pageController.jumpToPage(enumMenuLTSelected.index);
               Navigator.pop(context);
             }),
       ]),
@@ -101,75 +131,17 @@ class _MyHomePageState extends State<MyHomePage> {
       ])
     ];
 
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(widget.title),
-      ),
-      drawer: NavDrawer(
-          namePersonHeader: "Cesar Silva Peixoto", menusTitleLT: menusTitleLT),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+    return PageView(
+      controller: _pageController,
+      physics: const NeverScrollableScrollPhysics(),
+      children: [
+        MenuPrincipalPage(pageAppBar: _pageAppBar(), navdrawer: _navDrawe()),
+        MeusTratamentosPage(pageAppBar: _pageAppBar(), navdrawer: _navDrawe()),
+        MinhasContasPage(pageAppBar: _pageAppBar(), navdrawer: _navDrawe()),
+        MinhasIndicacoesPage(pageAppBar: _pageAppBar(), navdrawer: _navDrawe()),
+        PreferenciasUsuarioPage(
+            pageAppBar: _pageAppBar(), navdrawer: _navDrawe()),
+      ],
     );
   }
 }
-
-/*   Widget gambiDrawerWdgt() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SafeArea(
-          child: Container(
-            alignment: AlignmentDirectional.centerStart,
-            color: AppColors.cinzaHeaderDrawer,
-            height: 146,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 60,
-                  width: 60,
-                  // color: Colors.orange,
-                ),
-                const CircleAvatar(
-                  radius: 30,
-                  // backgroundColor: Colors.orange,
-                  child: Text('C'),
-                )
-              ],
-            ),
-          ),
-        ),
-        /* Container(color: Colors.amber,
-            height: 24,
-             ), */
-        Expanded(
-            child: Container(
-          color: Colors.green,
-        )),
-        Expanded(
-            child: Container(
-          color: Colors.blue,
-        )),
-        const SizedBox(),
-        const Text("This is a Drawer")
-      ],
-    );
-  } */

@@ -2,7 +2,23 @@ import 'package:flutter/material.dart';
 
 class MeusHorariosCard extends StatelessWidget {
   final int index;
-  const MeusHorariosCard(this.index, {Key? key}) : super(key: key);
+  final ImageProvider<Object> circleImage;
+  final String dataTimeTitle;
+  final String dentistaName;
+  final String appointmentDuration;
+  final String appointmentDescription;
+  final GestureTapCallback cancelOnPressed;
+  final GestureTapCallback confirmOnPressed;
+  const MeusHorariosCard(this.index,
+      {Key? key,
+      this.circleImage = const AssetImage('images/silvao.jpg'),
+      required this.dataTimeTitle,
+      required this.dentistaName,
+      required this.appointmentDuration,
+      required this.appointmentDescription,
+      required this.cancelOnPressed,
+      required this.confirmOnPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,44 +29,39 @@ class MeusHorariosCard extends StatelessWidget {
           width: 344,
           child: Column(
               mainAxisSize: MainAxisSize.min,
-              // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const ListTile(
-                  leading: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.grey,
-                    backgroundImage: NetworkImage(
-                        "https://storage.builderall.com//franquias/2/887308/editor-html/4345839.jpg"),
-                  ),
-                  title: Text("21/03/2021 - 15h30",
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
-                  subtitle: Text(
-                    "Thiago Henrique Gaspar Dutra filho",
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: TextStyle(fontSize: 12, color: Color(0xFF666666)),
-                  ),
-                  trailing: Text(
-                    "30min",
-                    style: TextStyle(fontSize: 14, color: Color(0xFF6E798C)),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                      ),
-                      child: Text(
-                        index != 0
-                            ? "Tratamento de canal e extração do dente 45, após extração do 21."
-                            : "Breve descrição",
-                        maxLines: 2,
+                ListTile(
+                    leading: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.grey,
+                        backgroundImage: circleImage),
+                    title: Text(dataTimeTitle,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w700)),
+                    subtitle: Text(dentistaName,
                         overflow: TextOverflow.ellipsis,
-                      )),
-                ),
-                // const Expanded(child: SizedBox()),
+                        maxLines: 1,
+                        style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF666666))),
+                    trailing: Text("Dur.\n$appointmentDuration",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF6E798C),
+                            fontWeight: FontWeight.w500))),
+                Expanded(
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        child: Text(
+                          appointmentDescription,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ))),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
                   child: Row(
@@ -60,7 +71,7 @@ class MeusHorariosCard extends StatelessWidget {
                           style: TextButton.styleFrom(
                               textStyle: const TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.w700)),
-                          onPressed: () {},
+                          onPressed: cancelOnPressed,
                           child: const Text('CANCELAR',
                               style: TextStyle(color: Colors.red))),
                       TextButton(
@@ -71,7 +82,7 @@ class MeusHorariosCard extends StatelessWidget {
                                   fontSize: 14,
                                   fontWeight: FontWeight.w900,
                                   color: Colors.white)),
-                          onPressed: () {},
+                          onPressed: confirmOnPressed,
                           child: const Text('CONFIRMAR',
                               style: TextStyle(color: Colors.white))),
                     ],

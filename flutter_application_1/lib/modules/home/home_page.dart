@@ -28,8 +28,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _navDrawe() {
+    //TODO: Trocar váriaveis referente ao nome e foto (se houver).
+    String namePerson = "Cesar Silva";
     return NavDrawer(
-        namePersonHeader: "Cesar Silva Peixoto", menusTitleLT: menusTitleLT);
+      namePersonHeader: namePerson,
+      menusTitleLT:
+          menusTitleLT, /* imagePersonHeader: const AssetImage('images/silvao.jpg'), */
+    );
   }
 
   String _titleAppBar() {
@@ -48,27 +53,43 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   PreferredSizeWidget _pageAppBar() {
+    String firstLetterName = "c";
+    Color colorPerson = Colors.orange;
     return AppBar(
       title: Text(_titleAppBar()),
-      actions: const [
+      actions: [
         CircleAvatar(
-          // radius: 15,
-          child: Text(
-            "C",
-            style: TextStyle(fontSize: 24, color: Colors.white),
-          ),
-          backgroundColor: Colors.orange,
-        ),
-        SizedBox(width: 16)
+            child: Text(
+              firstLetterName.toUpperCase(),
+              style: const TextStyle(fontSize: 24, color: Colors.white),
+            ),
+            backgroundColor: colorPerson),
+        const SizedBox(width: 16)
       ],
     );
   }
 
+ /*  Widget _pageWidget(){
+    switch (enumMenuLTSelected) {
+      case MenuLTSelected.mainMenu:
+        return "Menu Principal";
+      case MenuLTSelected.myAppoitments:
+        return "Meus Tratamentos";
+      case MenuLTSelected.myBills:
+        return "Minhas Contas";
+      case MenuLTSelected.myInvantations:
+        return "Minhas Indicações";
+      case MenuLTSelected.userSettings:
+        return "Preferências do Usuário";
+    }
+  } */
+
   @override
   Widget build(BuildContext context) {
     menusTitleLT = [
-      MenusTitleLT(title: "SERVIÇOS", menus: [
+      MenusTitleLT(hasPermission: true, title: "SERVIÇOS", menus: [
         MenuListTile(
+            hasPermission: true,
             icon: const Icon(Icons.home),
             title: "Menu Principal",
             isSelected: enumMenuLTSelected.index == 0,
@@ -79,6 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.pop(context);
             }),
         MenuListTile(
+            hasPermission: true,
             icon: const Icon(Icons.paste),
             title: "Meus Tratamentos",
             isSelected: enumMenuLTSelected.index == 1,
@@ -89,6 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.pop(context);
             }),
         MenuListTile(
+            hasPermission: true,
             icon: const Icon(Icons.account_balance_wallet_outlined),
             title: "Minhas Contas",
             isSelected: enumMenuLTSelected.index == 2,
@@ -99,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.pop(context);
             }),
         MenuListTile(
+            hasPermission: true,
             icon: const Icon(Icons.groups_sharp),
             title: "Minhas Indicações",
             isSelected: enumMenuLTSelected.index == 3,
@@ -109,8 +133,9 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.pop(context);
             }),
       ]),
-      MenusTitleLT(title: 'CONFIGURAÇÕES', menus: [
+      MenusTitleLT(hasPermission: true, title: 'CONFIGURAÇÕES', menus: [
         MenuListTile(
+            hasPermission: true,
             icon: const Icon(Icons.settings),
             title: "Preferências do Usuário",
             isSelected: enumMenuLTSelected.index == 4,
@@ -120,8 +145,9 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.pop(context);
             }),
       ]),
-      MenusTitleLT(title: 'PERFIL', menus: [
+      MenusTitleLT(hasPermission: true, title: 'PERFIL', menus: [
         MenuListTile(
+            hasPermission: true,
             icon: const Icon(Icons.power_settings_new),
             title: "Sair do Perfil",
             onTap: () {
@@ -144,4 +170,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
   }
+}
+
+enum MenuLTSelected {
+  mainMenu,
+  myAppoitments,
+  myBills,
+  myInvantations,
+  userSettings
 }

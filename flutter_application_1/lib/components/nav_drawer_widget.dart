@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'menus_title_lt.dart';
 
 class NavDrawer extends StatelessWidget {
-  final Image? imagePersonHeader;
+  final ImageProvider<Object>? imagePersonHeader;
   final String namePersonHeader;
+  //TODO: Observar a questão das cores randômicas, salvar uma cor para cada usuário no próprio smartphone.
   final Color? colorHeaderCA;
   final List<MenusTitleLT>? menusTitleLT;
   const NavDrawer(
       {Key? key,
       this.imagePersonHeader,
       required this.namePersonHeader,
-      this.colorHeaderCA = Colors.orange, this.menusTitleLT = const []})
+      this.colorHeaderCA = Colors.orange,
+      this.menusTitleLT = const []})
       : super(key: key);
 
   @override
@@ -30,13 +32,18 @@ class NavDrawer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircleAvatar(
-                  radius: 30,
-                  backgroundColor: colorHeaderCA,
-                  child: imagePersonHeader ??
-                      Text(namePersonHeader.substring(0, 1).toUpperCase(),
-                          style: const TextStyle(
-                              fontSize: 30, color: Colors.white)),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: colorHeaderCA,
+                    backgroundImage: imagePersonHeader,
+                    child: imagePersonHeader == null
+                        ? Text(namePersonHeader.substring(0, 1).toUpperCase(),
+                            style: const TextStyle(
+                                fontSize: 30, color: Colors.white))
+                        : null,
+                  ),
                 ),
                 Text(namePersonHeader, style: const TextStyle(fontSize: 18)),
               ],
@@ -47,12 +54,4 @@ class NavDrawer extends StatelessWidget {
       ),
     );
   }
-}
-
-enum MenuLTSelected {
-  mainMenu,
-  myAppoitments,
-  myBills,
-  myInvantations,
-  userSettings
 }

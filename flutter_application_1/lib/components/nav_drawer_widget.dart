@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'menus_title_lt.dart';
+import 'menus_title_lt_widget.dart';
 
 class NavDrawer extends StatelessWidget {
   final ImageProvider<Object>? imagePersonHeader;
   final String namePersonHeader;
   //TODO: Observar a questão das cores randômicas, salvar uma cor para cada usuário no próprio smartphone.
   final Color? colorHeaderCA;
-  final List<MenusTitleLT>? menusTitleLT;
+  final List<MenusTitleLTWidget>? menusTitleLT;
   const NavDrawer(
       {Key? key,
       this.imagePersonHeader,

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'menu_list_tile.dart';
+import 'menu_list_tile_widget.dart';
 
-class MenusTitleLT extends StatelessWidget {
+class MenusTitleLTWidget extends StatelessWidget {
   final bool hasPermission;
   final String title;
-  final List<MenuListTile>? menus;
-  const MenusTitleLT(
+  final List<MenuListTileWiget>? menus;
+  const MenusTitleLTWidget(
       {Key? key,
       this.hasPermission = false,
       required this.title,

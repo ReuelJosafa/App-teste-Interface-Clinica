@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class MenuListTile extends StatelessWidget {
+class MenuListTileWiget extends StatelessWidget {
   final bool hasPermission;
 
   final Icon? icon;
   final String title;
   final bool isSelected;
   final GestureTapCallback? onTap;
-  const MenuListTile(
+  const MenuListTileWiget(
       {Key? key,
       this.hasPermission = false,
       this.icon,

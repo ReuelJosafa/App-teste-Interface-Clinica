@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../components/menu_list_tile.dart';
-import '../../components/menus_title_lt.dart';
+import '../../components/menu_list_tile_widget.dart';
+import '../../components/menus_title_lt_widget.dart';
 import '../../components/nav_drawer_widget.dart';
 import '../menu_principal/menu_principal_page.dart';
 import '../meus_tratamentos/meus_tratamentos_page.dart';
@@ -18,7 +18,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   MenuLTSelected enumMenuLTSelected = MenuLTSelected.mainMenu;
-  List<MenusTitleLT> menusTitleLT = [];
+  List<MenusTitleLTWidget> menusTitleLT = [];
   // late BuildContext buildContext;
   final _pageController = PageController();
 
@@ -69,26 +69,32 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
- /*  Widget _pageWidget(){
+  Widget _pageWidget() {
     switch (enumMenuLTSelected) {
       case MenuLTSelected.mainMenu:
-        return "Menu Principal";
+        return MenuPrincipalPage(
+            pageAppBar: _pageAppBar(), navdrawer: _navDrawe());
       case MenuLTSelected.myAppoitments:
-        return "Meus Tratamentos";
+        return MeusTratamentosPage(
+            pageAppBar: _pageAppBar(), navdrawer: _navDrawe());
       case MenuLTSelected.myBills:
-        return "Minhas Contas";
+        return MinhasContasPage(
+            pageAppBar: _pageAppBar(), navdrawer: _navDrawe());
       case MenuLTSelected.myInvantations:
-        return "Minhas Indicações";
+        return MinhasIndicacoesPage(
+            pageAppBar: _pageAppBar(), navdrawer: _navDrawe());
       case MenuLTSelected.userSettings:
-        return "Preferências do Usuário";
+        return PreferenciasUsuarioPage(
+            pageAppBar: _pageAppBar(), navdrawer: _navDrawe());
     }
-  } */
+  }
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Atentar-se à permissão de acesso ao menu e navegação da tela.
     menusTitleLT = [
-      MenusTitleLT(hasPermission: true, title: "SERVIÇOS", menus: [
-        MenuListTile(
+      MenusTitleLTWidget(hasPermission: true, title: "SERVIÇOS", menus: [
+        MenuListTileWiget(
             hasPermission: true,
             icon: const Icon(Icons.home),
             title: "Menu Principal",
@@ -96,10 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () {
               setState(() {});
               enumMenuLTSelected = MenuLTSelected.mainMenu;
-              _pageController.jumpToPage(enumMenuLTSelected.index);
+              // _pageController.jumpToPage(enumMenuLTSelected.index);
               Navigator.pop(context);
             }),
-        MenuListTile(
+        MenuListTileWiget(
             hasPermission: true,
             icon: const Icon(Icons.paste),
             title: "Meus Tratamentos",
@@ -107,10 +113,10 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () {
               setState(() {});
               enumMenuLTSelected = MenuLTSelected.myAppoitments;
-              _pageController.jumpToPage(enumMenuLTSelected.index);
+              // _pageController.jumpToPage(enumMenuLTSelected.index);
               Navigator.pop(context);
             }),
-        MenuListTile(
+        MenuListTileWiget(
             hasPermission: true,
             icon: const Icon(Icons.account_balance_wallet_outlined),
             title: "Minhas Contas",
@@ -118,10 +124,10 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () {
               setState(() {});
               enumMenuLTSelected = MenuLTSelected.myBills;
-              _pageController.jumpToPage(enumMenuLTSelected.index);
+              // _pageController.jumpToPage(enumMenuLTSelected.index);
               Navigator.pop(context);
             }),
-        MenuListTile(
+        MenuListTileWiget(
             hasPermission: true,
             icon: const Icon(Icons.groups_sharp),
             title: "Minhas Indicações",
@@ -129,12 +135,12 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () {
               setState(() {});
               enumMenuLTSelected = MenuLTSelected.myInvantations;
-              _pageController.jumpToPage(enumMenuLTSelected.index);
+              // _pageController.jumpToPage(enumMenuLTSelected.index);
               Navigator.pop(context);
             }),
       ]),
-      MenusTitleLT(hasPermission: true, title: 'CONFIGURAÇÕES', menus: [
-        MenuListTile(
+      MenusTitleLTWidget(hasPermission: true, title: 'CONFIGURAÇÕES', menus: [
+        MenuListTileWiget(
             hasPermission: true,
             icon: const Icon(Icons.settings),
             title: "Preferências do Usuário",
@@ -145,8 +151,8 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.pop(context);
             }),
       ]),
-      MenusTitleLT(hasPermission: true, title: 'PERFIL', menus: [
-        MenuListTile(
+      MenusTitleLTWidget(hasPermission: true, title: 'PERFIL', menus: [
+        MenuListTileWiget(
             hasPermission: true,
             icon: const Icon(Icons.power_settings_new),
             title: "Sair do Perfil",
@@ -157,7 +163,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ])
     ];
 
-    return PageView(
+    //TODO: Rever a questão da navegação para as próximas telas.
+    return _pageWidget();
+
+    /* PageView(
       controller: _pageController,
       physics: const NeverScrollableScrollPhysics(),
       children: [
@@ -168,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
         PreferenciasUsuarioPage(
             pageAppBar: _pageAppBar(), navdrawer: _navDrawe()),
       ],
-    );
+    ); */
   }
 }
 

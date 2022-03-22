@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/app_icons.dart';
 
 import '../../components/menu_list_tile_widget.dart';
 import '../../components/menus_title_lt_widget.dart';
@@ -73,19 +74,19 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (enumMenuLTSelected) {
       case MenuLTSelected.mainMenu:
         return MenuPrincipalPage(
-            pageAppBar: _pageAppBar(), navdrawer: _navDrawe());
+            pageAppBar: _pageAppBar(), navDrawer: _navDrawe());
       case MenuLTSelected.myAppoitments:
         return MeusTratamentosPage(
-            pageAppBar: _pageAppBar(), navdrawer: _navDrawe());
+            pageAppBar: _pageAppBar(), navDrawer: _navDrawe());
       case MenuLTSelected.myBills:
         return MinhasContasPage(
-            pageAppBar: _pageAppBar(), navdrawer: _navDrawe());
+            pageAppBar: _pageAppBar(), navDrawer: _navDrawe());
       case MenuLTSelected.myInvantations:
         return MinhasIndicacoesPage(
-            pageAppBar: _pageAppBar(), navdrawer: _navDrawe());
+            pageAppBar: _pageAppBar(), navDrawer: _navDrawe());
       case MenuLTSelected.userSettings:
         return PreferenciasUsuarioPage(
-            pageAppBar: _pageAppBar(), navdrawer: _navDrawe());
+            pageAppBar: _pageAppBar(), navDrawer: _navDrawe());
     }
   }
 
@@ -96,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
       MenusTitleLTWidget(hasPermission: true, title: "SERVIÇOS", menus: [
         MenuListTileWiget(
             hasPermission: true,
-            icon: const Icon(Icons.home),
+            icon: Icon(AppIcons.home),
             title: "Menu Principal",
             isSelected: enumMenuLTSelected.index == 0,
             onTap: () {
@@ -107,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
             }),
         MenuListTileWiget(
             hasPermission: true,
-            icon: const Icon(Icons.paste),
+            icon: Icon(AppIcons.treatments),
             title: "Meus Tratamentos",
             isSelected: enumMenuLTSelected.index == 1,
             onTap: () {

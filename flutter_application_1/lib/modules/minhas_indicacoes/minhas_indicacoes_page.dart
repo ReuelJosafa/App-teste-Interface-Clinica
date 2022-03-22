@@ -3,9 +3,9 @@ import 'package:share_plus/share_plus.dart';
 
 class MinhasIndicacoesPage extends StatefulWidget {
   final PreferredSizeWidget pageAppBar;
-  final Widget navdrawer;
+  final Widget navDrawer;
   const MinhasIndicacoesPage(
-      {Key? key, required this.pageAppBar, required this.navdrawer})
+      {Key? key, required this.pageAppBar, required this.navDrawer})
       : super(key: key);
 
   @override
@@ -25,7 +25,7 @@ class MinhasIndicacoestate extends State<MinhasIndicacoesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: widget.pageAppBar,
-      drawer: widget.navdrawer,
+      drawer: widget.navDrawer,
       body: Center(child: Text("Minhas Indicações Page")),
       floatingActionButton: FloatingActionButton(
           onPressed: _sendInvatationMassage,

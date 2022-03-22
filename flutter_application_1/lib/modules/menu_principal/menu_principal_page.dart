@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/app_colors.dart';
+import 'package:flutter_application_1/app_datas.dart';
+import 'package:flutter_application_1/models/treatment.dart';
 
 import '../../components/meus_horarios_card_widget.dart';
+import '../../components/treatment_button_action_widget.dart';
 
 class MenuPrincipalPage extends StatefulWidget {
   final PreferredSizeWidget pageAppBar;
-  final Widget navdrawer;
+  final Widget navDrawer;
 
   const MenuPrincipalPage(
-      {Key? key, required this.pageAppBar, required this.navdrawer})
+      {Key? key, required this.pageAppBar, required this.navDrawer})
       : super(key: key);
 
   @override
@@ -15,6 +19,15 @@ class MenuPrincipalPage extends StatefulWidget {
 }
 
 class _MenuPrincipalPageState extends State<MenuPrincipalPage> {
+  bool boolTeste = false;
+  late List<TreatmentCard> _testCardTreatments;
+
+  @override
+  void initState() {
+    _testCardTreatments = AppDatas.treatmentCards;
+    super.initState();
+  }
+
   Widget _titleListTile(IconData iconData, String title, {Widget? trailing}) {
     return ListTile(
         leading: Icon(iconData, color: Colors.black),
@@ -60,11 +73,96 @@ class _MenuPrincipalPageState extends State<MenuPrincipalPage> {
         trailing: const Icon(Icons.arrow_forward_ios));
   }
 
+  void _showAlertDialog(
+      {required String title,
+      required String treatmentInfo,
+      required String alertMsg,
+      required List<Widget> actions}) {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+              title: Text(title),
+              content: Column(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(treatmentInfo),
+                    Divider(),
+                    Text(
+                      alertMsg,
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    )
+                  ]),
+              actions: actions);
+        });
+  }
+
+  void _cancelOnPressed(TreatmentCard treatmentCard) {
+    //TODO: Fazer função para cancelamento de agendamento. Após abertura do AlertDialog.
+
+    _showAlertDialog(
+        title: "Cancelar agendamento?",
+        treatmentInfo:
+            "Data: ${treatmentCard.dateTime.day} ${treatmentCard.monthAsString} de ${treatmentCard.dateTime.year}.\n"
+            "Horário/Dur: ${treatmentCard.dateTime.hour}h${treatmentCard.dateTime.minute} - ${treatmentCard.duration.inMinutes}min.\n"
+            "Dent. ${treatmentCard.dentist}.",
+        alertMsg: "Você tem certeza que deseja cancelar este agendamento?",
+        actions: [
+          TreatmentButtonAction.noBrackgound(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            titleButton: "NÃO",
+            fontColor: AppColors.canceledAlertDialog,
+          ),
+          TreatmentButtonAction(
+              backgroundColor: Colors.red,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              titleButton: "CANCELAR"),
+        ]);
+  }
+
+  void _confirmOnPressed(TreatmentCard treatmentCard) {
+    //TODO: Fazer função para confirmação de agendamento. Após abertura do AlertDialog.
+
+    _showAlertDialog(
+        title: "Confirmar agendamento?",
+        treatmentInfo:
+            "Data: ${treatmentCard.dateTime.day} ${treatmentCard.monthAsString} de ${treatmentCard.dateTime.year}.\n"
+            "Horário/Dur: ${treatmentCard.dateTime.hour}h${treatmentCard.dateTime.minute} - ${treatmentCard.duration.inMinutes}min.\n"
+            "Dent. ${treatmentCard.dentist}.",
+        alertMsg:
+            "Após confirmar o agendamento não será possível cancelá-lo pelo aplicativo.",
+        actions: [
+          TreatmentButtonAction.noBrackgound(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            titleButton: "NÃO",
+            fontColor: AppColors.canceledAlertDialog,
+          ),
+          TreatmentButtonAction(
+              backgroundColor: AppColors.done,
+              onPressed: () {
+                setState(() {
+                  treatmentCard.isConfirmed = true;
+                  // AppDatas.treatmentCards[index].isConfirmed = true;
+                });
+                Navigator.pop(context);
+              },
+              titleButton: "CONFIRMAR"),
+        ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: widget.pageAppBar,
-        drawer: widget.navdrawer,
+        drawer: widget.navDrawer,
         //TODO: Atentar-se para um futura mundação de Widget, por conta do overflow na Column.
         body: ListView(children: [
           _titleListTile(Icons.schedule_outlined, "Meus horários"),
@@ -73,28 +171,28 @@ class _MenuPrincipalPageState extends State<MenuPrincipalPage> {
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   //TODO: Substituir por variável referente ao número de horários agendados.
-                  itemCount: 3,
+                  itemCount: _testCardTreatments.length,
                   itemBuilder: (context, index) {
+                    final TreatmentCard treatmentCard =
+                        _testCardTreatments[index];
                     // TODO: Colocar variáveis referentes as informações do card do agendamento.
-                    return MeusHorariosCard(
-                      index,
-                      dataTimeTitle: "21 MAR - 15h30",
-                      dentistaName: "Thiago Henrique Gaspar Dutra filho",
-                      appointmentDuration: "30min",
-                      appointmentDescription: index != 0
-                          ? "Tratamento de canal e extração do dente 45, após extração do 21."
-                          : "Breve descrição",
-                      //TODO: Abrir alertDialog de confirmação para ambos.
-                      cancelOnPressed: () {
-                        //TODO: Fazer função para cancelamento de agendamento. Após abertura do AlertDialog.
-                        
-                        // print("Teste Cancelar");
-                      },
-                      confirmOnPressed: () {
-                        //TODO: Fazer função para confirmação de agendamento. Após abertura do AlertDialog.
-                        
-                        // print("Teste Confirmar");
-                      },
+                    return Padding(
+                      padding: EdgeInsets.only(left: index == 0 ? 16 : 0),
+                      child: MeusHorariosCard(
+                        dataTimeTitle:
+                            "${treatmentCard.dateTime.day} ${treatmentCard.monthAsString} - ${treatmentCard.dateTime.hour}h${treatmentCard.dateTime.minute}",
+                        dentistaName: treatmentCard.dentist,
+                        appointmentDuration:
+                            "${treatmentCard.duration.inMinutes}min",
+                        appointmentDescription: treatmentCard.description,
+                        isConfirmed: treatmentCard.isConfirmed,
+                        cancelOnPressed: () {
+                          _cancelOnPressed(treatmentCard);
+                        },
+                        confirmOnPressed: () {
+                          _confirmOnPressed(treatmentCard);
+                        },
+                      ),
                     );
                   })),
           const Padding(

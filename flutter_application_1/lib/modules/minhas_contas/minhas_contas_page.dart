@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class MinhasContasPage extends StatefulWidget {
   final PreferredSizeWidget pageAppBar;
-  final Widget navdrawer;
+  final Widget navDrawer;
   const MinhasContasPage(
-      {Key? key, required this.pageAppBar, required this.navdrawer})
+      {Key? key, required this.pageAppBar, required this.navDrawer})
       : super(key: key);
 
   @override
@@ -16,7 +16,7 @@ class _MinhasContasPageState extends State<MinhasContasPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: widget.pageAppBar,
-      drawer: widget.navdrawer,
+      drawer: widget.navDrawer,
       body: Center(child: Text("Minhas Contas Page")),
     );
   }

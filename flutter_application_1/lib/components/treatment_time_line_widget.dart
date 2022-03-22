@@ -62,7 +62,7 @@ class TreatmentTimeLineWidget extends StatelessWidget {
                                       text: valorSubT,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold)),
-                                  TextSpan(text: " $parcelamentoSubT "),
+                                  TextSpan(text: parcelamentoSubT),
                                   TextSpan(
                                       text: '$valorParceladoSubT\n',
                                       style: const TextStyle(

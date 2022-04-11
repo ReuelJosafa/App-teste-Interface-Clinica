@@ -19,9 +19,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   MenuLTSelected enumMenuLTSelected = MenuLTSelected.mainMenu;
-  List<MenusTitleLTWidget> menusTitleLT = [];
-  // late BuildContext buildContext;
-  final _pageController = PageController();
+  List<MenusTitleLTWidget> _menusTitleLT = [];
 
   @override
   void initState() {
@@ -34,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return NavDrawer(
       namePersonHeader: namePerson,
       menusTitleLT:
-          menusTitleLT, /* imagePersonHeader: const AssetImage('images/silvao.jpg'), */
+          _menusTitleLT, /* imagePersonHeader: const AssetImage('images/silvao.jpg'), */
     );
   }
 
@@ -93,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     //TODO: Atentar-se à permissão de acesso ao menu e navegação da tela.
-    menusTitleLT = [
+    _menusTitleLT = [
       MenusTitleLTWidget(hasPermission: true, title: "SERVIÇOS", menus: [
         MenuListTileWiget(
             hasPermission: true,

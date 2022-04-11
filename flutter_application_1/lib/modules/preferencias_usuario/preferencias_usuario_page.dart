@@ -17,7 +17,7 @@ class MinhasIndicacoestate extends State<PreferenciasUsuarioPage> {
     return Scaffold(
       appBar: widget.pageAppBar,
       drawer: widget.navDrawer,
-      body: Center(child: Text("Preferencias do Usuário Page")),
+      body: const Center(child: Text("Preferencias do Usuário Page")),
     );
   }
 }

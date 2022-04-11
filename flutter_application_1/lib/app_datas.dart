@@ -17,7 +17,7 @@ class AppDatas {
       ];
 
   //TODO: não esquecer que a lista real deverá ser ordenada pela data.
-  static List<PersonTreatment> get personTreatments => [
+  static List<PersonTreatment> get peopleTreatments => [
         PersonTreatment(
             name: "Silvano de Freitas Vaz Filhos",
             category: "Responsável",

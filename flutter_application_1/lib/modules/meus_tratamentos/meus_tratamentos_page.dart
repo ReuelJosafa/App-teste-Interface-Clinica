@@ -32,7 +32,7 @@ class _MeusTratamentosPageState extends State<MeusTratamentosPage> {
         planoHeader: title,
         color: color,
         iconHeader: icon,
-        people: AppDatas.personTreatments,
+        people: AppDatas.peopleTreatments,
       ),
     );
   }
@@ -74,6 +74,7 @@ class _MeusTratamentosPageState extends State<MeusTratamentosPage> {
       body: Stack(
         children: [
           //TODO: retornar um sizedBox para as páginas que não contiverem informação.
+          //Construir uma função para cada tópico.
           PageView(
             controller: pageController,
             physics: const NeverScrollableScrollPhysics(),

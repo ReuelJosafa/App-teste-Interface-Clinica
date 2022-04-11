@@ -24,7 +24,7 @@ class AppointmentTypesWidget extends StatelessWidget {
     return ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: people[indexPerson].lengthTreatmentsYear(yearReference),
+        itemCount: people[indexPerson].lengthTreatmentsOf(yearReference),
         itemBuilder: (context, indexTreatment) {
           //Como a partir do segundo ano este listView.builder começa a contar do zero fez-se necessário pegar o primeiro
           //index do ano de referência e somá-lo com o index dessa listagem de tratamentos.

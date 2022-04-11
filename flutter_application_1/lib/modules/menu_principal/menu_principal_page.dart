@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/app_colors.dart';
 import 'package:flutter_application_1/app_datas.dart';
 import 'package:flutter_application_1/models/treatment.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import '../../components/meus_horarios_card_widget.dart';
 import '../../components/treatment_button_action_widget.dart';
@@ -21,6 +22,7 @@ class MenuPrincipalPage extends StatefulWidget {
 class _MenuPrincipalPageState extends State<MenuPrincipalPage> {
   bool boolTeste = false;
   late List<TreatmentCard> _testCardTreatments;
+  // final calendarController = CalenderController();
 
   @override
   void initState() {
@@ -70,7 +72,7 @@ class _MenuPrincipalPageState extends State<MenuPrincipalPage> {
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
             style: TextStyle(fontSize: 12, color: Color(0xFF666666))),
-        trailing: const Icon(Icons.arrow_forward_ios));
+        trailing: const Icon(Icons.keyboard_arrow_right_rounded, size: 32));
   }
 
   void _showAlertDialog(
@@ -88,11 +90,14 @@ class _MenuPrincipalPageState extends State<MenuPrincipalPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(treatmentInfo),
-                    Divider(),
+                    Text(
+                      treatmentInfo,
+                      style: const TextStyle(fontWeight: FontWeight.w300),
+                    ),
+                    const Divider(),
                     Text(
                       alertMsg,
-                      style: TextStyle(fontWeight: FontWeight.w500),
+                      style: const TextStyle(fontWeight: FontWeight.w400),
                     )
                   ]),
               actions: actions);
@@ -150,7 +155,6 @@ class _MenuPrincipalPageState extends State<MenuPrincipalPage> {
               onPressed: () {
                 setState(() {
                   treatmentCard.isConfirmed = true;
-                  // AppDatas.treatmentCards[index].isConfirmed = true;
                 });
                 Navigator.pop(context);
               },
@@ -158,52 +162,75 @@ class _MenuPrincipalPageState extends State<MenuPrincipalPage> {
         ]);
   }
 
+  Widget _treatmentsCardListView(BuildContext context, int index) {
+    final TreatmentCard treatmentCard = _testCardTreatments[index];
+    return Padding(
+      padding: EdgeInsets.only(left: index == 0 ? 16 : 0),
+      child: MeusHorariosCard(
+        dataTimeTitle:
+            "${treatmentCard.dateTime.day} ${treatmentCard.monthAsString} - ${treatmentCard.dateTime.hour}h${treatmentCard.dateTime.minute}",
+        dentistaName: treatmentCard.dentist,
+        appointmentDuration: "${treatmentCard.duration.inMinutes}min",
+        appointmentDescription: treatmentCard.description,
+        isConfirmed: treatmentCard.isConfirmed,
+        cancelOnPressed: () {
+          _cancelOnPressed(treatmentCard);
+        },
+        confirmOnPressed: () {
+          _confirmOnPressed(treatmentCard);
+        },
+      ),
+    );
+  }
+
+  Widget _calendarCard() {
+    return Card(
+      child: TableCalendar(
+        availableGestures: AvailableGestures.horizontalSwipe,
+        calendarStyle: const CalendarStyle(cellMargin: EdgeInsets.all(0)),
+        // calendarFormat: CalendarFormat.week,
+        pageJumpingEnabled: true,
+        rowHeight: 48,
+        locale: 'pt_BR',
+        daysOfWeekHeight: 20,
+        focusedDay: DateTime.utc(2022, 3, 2),
+        firstDay: DateTime.utc(2010, 10, 16),
+        lastDay: DateTime.utc(2030, 3, 14),
+        headerStyle:
+            const HeaderStyle(titleCentered: true, formatButtonVisible: false),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: widget.pageAppBar,
         drawer: widget.navDrawer,
-        //TODO: Atentar-se para um futura mundação de Widget, por conta do overflow na Column.
-        body: ListView(children: [
+        body: ListView(physics: const BouncingScrollPhysics(), children: [
           _titleListTile(Icons.schedule_outlined, "Meus horários"),
           SizedBox(
-              height: 190,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  //TODO: Substituir por variável referente ao número de horários agendados.
-                  itemCount: _testCardTreatments.length,
-                  itemBuilder: (context, index) {
-                    final TreatmentCard treatmentCard =
-                        _testCardTreatments[index];
-                    // TODO: Colocar variáveis referentes as informações do card do agendamento.
-                    return Padding(
-                      padding: EdgeInsets.only(left: index == 0 ? 16 : 0),
-                      child: MeusHorariosCard(
-                        dataTimeTitle:
-                            "${treatmentCard.dateTime.day} ${treatmentCard.monthAsString} - ${treatmentCard.dateTime.hour}h${treatmentCard.dateTime.minute}",
-                        dentistaName: treatmentCard.dentist,
-                        appointmentDuration:
-                            "${treatmentCard.duration.inMinutes}min",
-                        appointmentDescription: treatmentCard.description,
-                        isConfirmed: treatmentCard.isConfirmed,
-                        cancelOnPressed: () {
-                          _cancelOnPressed(treatmentCard);
-                        },
-                        confirmOnPressed: () {
-                          _confirmOnPressed(treatmentCard);
-                        },
-                      ),
-                    );
-                  })),
+            height: 190,
+            child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: _testCardTreatments.length,
+                itemBuilder: _treatmentsCardListView),
+          ),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 16),
-            child: Divider(
-              thickness: 1.25,
-            ),
+            child: Divider(thickness: 1.25),
           ),
-          _titleListTile(Icons.calendar_month, "Agendamentos",
-              trailing: _trailingButtonAgendamentos()),
+          _titleListTile(
+            Icons.calendar_month,
+            "Agendamentos",
+            trailing: _trailingButtonAgendamentos(),
+          ),
           _selectDentistLT(),
+          _calendarCard(),
+          const SizedBox(height: 16),
+          const SizedBox(height: 56),
+          const SizedBox(height: 96),
         ]));
   }
 }

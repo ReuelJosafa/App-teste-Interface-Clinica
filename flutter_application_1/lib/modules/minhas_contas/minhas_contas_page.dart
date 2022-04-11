@@ -17,7 +17,7 @@ class _MinhasContasPageState extends State<MinhasContasPage> {
     return Scaffold(
       appBar: widget.pageAppBar,
       drawer: widget.navDrawer,
-      body: Center(child: Text("Minhas Contas Page")),
+      body: const Center(child: Text("Minhas Contas Page")),
     );
   }
 }

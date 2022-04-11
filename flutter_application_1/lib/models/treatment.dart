@@ -14,7 +14,7 @@ class PersonTreatment {
 
   Set<int> get yearsReference => treatments.map((e) => e.year).toSet();
 
-  int lengthTreatmentsYear(int year) =>
+  int lengthTreatmentsOf(int year) =>
       treatments.where((e) => e.year == year).length;
 
   int firstYearIndex(int year) => treatments.indexWhere((e) => e.year == year);
@@ -28,7 +28,7 @@ class Treatment {
   final int year;
   final String treatmentTitle;
   final String valorSubT;
-  //TODO: Conferir um valor nulável que pode receber um valor noconstrutor.
+  //TODO: Conferir um valor nulável que pode receber um valor no construtor.
   final String? parcelamentoSubT;
   final String? valorParceladoSubT;
   final String dentist;

@@ -10,6 +10,12 @@ import '../minhas_contas/minhas_contas_page.dart';
 import '../minhas_indicacoes/minhas_indicacoes_page.dart';
 import '../preferencias_usuario/preferencias_usuario_page.dart';
 
+const _mainMenu = "Menu Principal";
+const _myAppointmentsMenu = "Meus Tratamentos";
+const _myBillsMenu = "Minhas Contas";
+const _myInvatationsMenu = "Minhas Indicações";
+const _userSettingsMenu = "Preferências do Usuário";
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
@@ -18,13 +24,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  MenuLTSelected enumMenuLTSelected = MenuLTSelected.mainMenu;
+  MenuLTSelected _enumMenuLTSelected = MenuLTSelected.mainMenu;
   List<MenusTitleLTWidget> _menusTitleLT = [];
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   Widget _navDrawe() {
     //TODO: Trocar váriaveis referente ao nome e foto (se houver).
@@ -36,40 +37,39 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  String _titleAppBar() {
-    switch (enumMenuLTSelected) {
-      case MenuLTSelected.mainMenu:
-        return "Menu Principal";
-      case MenuLTSelected.myAppoitments:
-        return "Meus Tratamentos";
-      case MenuLTSelected.myBills:
-        return "Minhas Contas";
-      case MenuLTSelected.myInvantations:
-        return "Minhas Indicações";
-      case MenuLTSelected.userSettings:
-        return "Preferências do Usuário";
-    }
-  }
-
   PreferredSizeWidget _pageAppBar() {
     String firstLetterName = "c";
     Color colorPerson = Colors.orange;
+
+    String titleAppBar() {
+      switch (_enumMenuLTSelected) {
+        case MenuLTSelected.mainMenu:
+          return _mainMenu;
+        case MenuLTSelected.myAppoitments:
+          return _myAppointmentsMenu;
+        case MenuLTSelected.myBills:
+          return _myBillsMenu;
+        case MenuLTSelected.myInvantations:
+          return _myInvatationsMenu;
+        case MenuLTSelected.userSettings:
+          return _userSettingsMenu;
+      }
+    }
+
     return AppBar(
-      title: Text(_titleAppBar()),
+      title: Text(titleAppBar()),
       actions: [
         CircleAvatar(
-            child: Text(
-              firstLetterName.toUpperCase(),
-              style: const TextStyle(fontSize: 24, color: Colors.white),
-            ),
+            child: Text(firstLetterName.toUpperCase(),
+                style: const TextStyle(fontSize: 24, color: Colors.white)),
             backgroundColor: colorPerson),
         const SizedBox(width: 16)
       ],
     );
   }
 
-  Widget _pageWidget() {
-    switch (enumMenuLTSelected) {
+  Widget _pagesWidget() {
+    switch (_enumMenuLTSelected) {
       case MenuLTSelected.mainMenu:
         return MenuPrincipalPage(
             pageAppBar: _pageAppBar(), navDrawer: _navDrawe());
@@ -88,6 +88,14 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  bool _isMenuSelected(MenuLTSelected menu) => _enumMenuLTSelected == menu;
+
+  void _onSelectMenu(MenuLTSelected menu) {
+    setState(() {});
+    _enumMenuLTSelected = menu;
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     //TODO: Atentar-se à permissão de acesso ao menu e navegação da tela.
@@ -96,59 +104,35 @@ class _MyHomePageState extends State<MyHomePage> {
         MenuListTileWiget(
             hasPermission: true,
             icon: Icon(AppIcons.home),
-            title: "Menu Principal",
-            isSelected: enumMenuLTSelected.index == 0,
-            onTap: () {
-              setState(() {});
-              enumMenuLTSelected = MenuLTSelected.mainMenu;
-              // _pageController.jumpToPage(enumMenuLTSelected.index);
-              Navigator.pop(context);
-            }),
+            title: _mainMenu,
+            isSelected: _isMenuSelected(MenuLTSelected.mainMenu),
+            onTap: () => _onSelectMenu(MenuLTSelected.mainMenu)),
         MenuListTileWiget(
             hasPermission: true,
             icon: Icon(AppIcons.treatments),
-            title: "Meus Tratamentos",
-            isSelected: enumMenuLTSelected.index == 1,
-            onTap: () {
-              setState(() {});
-              enumMenuLTSelected = MenuLTSelected.myAppoitments;
-              // _pageController.jumpToPage(enumMenuLTSelected.index);
-              Navigator.pop(context);
-            }),
+            title: _myAppointmentsMenu,
+            isSelected: _isMenuSelected(MenuLTSelected.myAppoitments),
+            onTap: () => _onSelectMenu(MenuLTSelected.myAppoitments)),
         MenuListTileWiget(
             hasPermission: true,
             icon: const Icon(Icons.account_balance_wallet_outlined),
-            title: "Minhas Contas",
-            isSelected: enumMenuLTSelected.index == 2,
-            onTap: () {
-              setState(() {});
-              enumMenuLTSelected = MenuLTSelected.myBills;
-              // _pageController.jumpToPage(enumMenuLTSelected.index);
-              Navigator.pop(context);
-            }),
+            title: _myBillsMenu,
+            isSelected: _isMenuSelected(MenuLTSelected.myBills),
+            onTap: () => _onSelectMenu(MenuLTSelected.myBills)),
         MenuListTileWiget(
             hasPermission: true,
             icon: const Icon(Icons.groups_sharp),
-            title: "Minhas Indicações",
-            isSelected: enumMenuLTSelected.index == 3,
-            onTap: () {
-              setState(() {});
-              enumMenuLTSelected = MenuLTSelected.myInvantations;
-              // _pageController.jumpToPage(enumMenuLTSelected.index);
-              Navigator.pop(context);
-            }),
+            title: _myInvatationsMenu,
+            isSelected: _isMenuSelected(MenuLTSelected.myInvantations),
+            onTap: () => _onSelectMenu(MenuLTSelected.myInvantations)),
       ]),
       MenusTitleLTWidget(hasPermission: true, title: 'CONFIGURAÇÕES', menus: [
         MenuListTileWiget(
             hasPermission: true,
             icon: const Icon(Icons.settings),
-            title: "Preferências do Usuário",
-            isSelected: enumMenuLTSelected.index == 4,
-            onTap: () {
-              setState(() {});
-              enumMenuLTSelected = MenuLTSelected.userSettings;
-              Navigator.pop(context);
-            }),
+            title: _userSettingsMenu,
+            isSelected: _isMenuSelected(MenuLTSelected.userSettings),
+            onTap: () => _onSelectMenu(MenuLTSelected.userSettings)),
       ]),
       MenusTitleLTWidget(hasPermission: true, title: 'PERFIL', menus: [
         MenuListTileWiget(
@@ -163,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
 
     //TODO: Rever a questão da navegação para as próximas telas.
-    return _pageWidget();
+    return _pagesWidget();
 
     /* PageView(
       controller: _pageController,

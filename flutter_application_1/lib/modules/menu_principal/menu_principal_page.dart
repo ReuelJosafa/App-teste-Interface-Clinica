@@ -20,7 +20,6 @@ class MenuPrincipalPage extends StatefulWidget {
 }
 
 class _MenuPrincipalPageState extends State<MenuPrincipalPage> {
-  bool boolTeste = false;
   late List<TreatmentCard> _testCardTreatments;
   // final calendarController = CalenderController();
 
@@ -221,11 +220,8 @@ class _MenuPrincipalPageState extends State<MenuPrincipalPage> {
             padding: EdgeInsets.symmetric(vertical: 16),
             child: Divider(thickness: 1.25),
           ),
-          _titleListTile(
-            Icons.calendar_month,
-            "Agendamentos",
-            trailing: _trailingButtonAgendamentos(),
-          ),
+          _titleListTile(Icons.calendar_month, "Agendamentos",
+              trailing: _trailingButtonAgendamentos()),
           _selectDentistLT(),
           _calendarCard(),
           const SizedBox(height: 16),

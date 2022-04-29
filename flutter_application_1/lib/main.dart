@@ -6,7 +6,6 @@ import 'modules/home/home_page.dart';
 void main() {
   initializeDateFormatting().then((_) =>
       runApp(const MyApp())); //inicializa a formatação da data para PT-br
-  // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
